@@ -4,22 +4,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RecipePlatform.Models.Models;
 
 namespace RecipePlatform.DAL.Entitys
 {
-    public class Ratings
+    public class Rating : BaseEntity
     {
-        public int Id { get; set; }
         public int Stars { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
         public int RecipeId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser Users { get; set; }
 
         [ForeignKey("RecipeId")]
        
-        public Recipes Recipes { get; set; }
+        public Recipe Recipes { get; set; }
     }
 }

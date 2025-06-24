@@ -17,20 +17,31 @@ namespace RecipePlatform.DAL.Context
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
 
-        public DbSet<Recipes> Recipes { get; set; }
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            modelBuilder.Entity<Rating>()
+                .HasOne(r => r.Users)
+                .WithMany(u => u.Ratings)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            
+            modelBuilder.Entity<Rating>()
+                .HasOne(r => r.Recipes)
+                .WithMany(p => p.Ratings)
+                .HasForeignKey(r => r.RecipeId)
+                .OnDelete(DeleteBehavior.Restrict); 
+        }
+        
+        public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Categories> Categories { get; set; }
-        public DbSet<Ratings> Ratings { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     }

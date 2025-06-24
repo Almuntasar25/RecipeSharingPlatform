@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RecipePlatform.BLL.Interfaces;
+using RecipePlatform.BLL.Repositories;
 using RecipePlatform.DAL.Context;
+using RecipePlatform.DAL.Entitys;
 
 namespace RecipePlatform.MVC
 {
@@ -10,14 +14,30 @@ namespace RecipePlatform.MVC
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+           
             builder.Services.AddControllersWithViews();
 
-            var app = builder.Build();
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+                options =>
+                {
+                    options.Password.RequireDigit = true;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
+             .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<IGenaricRepository<Categories>, GenaricRepository<Categories>>();
+            builder.Services.AddScoped<IGenaricRepository<Rating>, GenaricRepository<Rating>>();
+
+            var app = builder.Build();
 
 
 
