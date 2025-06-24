@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using RecipePlatform.DAL.Context;
+
 namespace RecipePlatform.MVC
 {
     public class Program
@@ -10,6 +13,14 @@ namespace RecipePlatform.MVC
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
