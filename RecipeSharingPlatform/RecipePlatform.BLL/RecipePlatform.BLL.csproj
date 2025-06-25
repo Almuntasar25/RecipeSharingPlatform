@@ -10,8 +10,4 @@
     <ProjectReference Include="..\RecipePlatform.DAL\RecipePlatform.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
