@@ -51,6 +51,12 @@ namespace RecipePlatform.BLL.Repositories
             return await _context.Set<T>().FindAsync(id);
         }
 
+        public IQueryable<T> GetQueryable()
+        {
+            return _context.Set<T>().AsQueryable();
+
+        }
+
         public async Task<T> Update(T entity)
         {
            _context.Update(entity);

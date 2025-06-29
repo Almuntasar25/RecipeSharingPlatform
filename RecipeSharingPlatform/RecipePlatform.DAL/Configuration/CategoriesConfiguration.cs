@@ -8,5 +8,10 @@ namespace RecipePlatform.DAL.Configuration
 {
     public class CategoriesConfiguration
     {
+        public CategoriesConfiguration() 
+        {
+         
+
+        }
     }
 }
